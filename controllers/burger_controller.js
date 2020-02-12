@@ -5,27 +5,35 @@ var router = express.Router();
 var burger = require('../models/burger');
 
 router.get('/', function(req, res){
+ // console.log('controller')
   burger.all(function(data){
     const hbsObject = {
-      burger: data
-    }
+      burgers: data
+    }; 
+   // console.log(hbsObject); 
+    res.render('index', hbsObject); 
   })
 })
 
-router.post('/api/burgers', function(req, res){
-  burger.insertOne(['burger_name'], [req.body.burger_name], function(result){
+router.post('/api/burger', function(req, res){
+  //console.log('post')
+  console.log(req.body.name); 
+  burger.insertOne('burger_name', req.body.name, function(result){
     res.json({id: result.insertID});
   })
 })
 
-router.put("/api/cats/:id", function(req, res) {
+
+
+
+router.put("/api/burger/:id", function(req, res) {
   var condition = "id = " + req.params.id;
 
   console.log("condition", condition);
 
   burger.updateOne(
     {
-      sleepy: req.body.sleepy
+      devoured: req.body.devoured
     },
     condition,
     function(result) {
@@ -42,5 +50,3 @@ router.put("/api/cats/:id", function(req, res) {
 module.exports = router; 
 
 
-
-module.exports =  router; 

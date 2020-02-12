@@ -1,14 +1,15 @@
-const connection = require('../config/connection'); 
+const connection = require('./connection'); 
 
 
 // Object for all our SQL statement functions.
 const orm = {
-  all: function (){
-    var queryString = "SELECT * FROM " + tableInput + ";";
-    connection.query(queryString, function(err, result) {
-      if (err) {
-        throw err;
-      }
+  all: function (tableInput, cb){
+   // console.log('orm');
+    var query = "SELECT * FROM " + tableInput + ";";
+    connection.query(query, function(err, result) {
+      if (err) throw err;
+      //console.log('data')
+      //console.log(result); 
       cb(result);
     });
   },
@@ -17,7 +18,7 @@ const orm = {
 
       console.log(query);
   
-      connection.query(query, vals, function(err, result) {
+      connection.query(query, val, function(err, result) {
         if (err) {
           throw err;
         }
