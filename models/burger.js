@@ -13,7 +13,8 @@ var burger = {
     });
   },  
   updateOne: function(col, condition, cb){
-    orm.updateOne('burgers', condition, function(res){
+    console.log('burger-model-update')
+    orm.updateOne('burgers', col, condition, function(res){
       cb(res); 
     });
   }

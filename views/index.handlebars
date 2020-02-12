@@ -1,16 +1,23 @@
 <h1> hello world </h1>
 
+<h2>Burgers you'd like to EAt</h2>
 <ul>
   {{#each burgers}}
-  <li>
-    <p>
-      {{this.id}}. {{this.burger_name}}
-
-      
-    </p>
-    <button data-burgerid="{{this.id}}" class="devoured">Devoured!</button>
-  </li>
+    {{#unless devoured}}
+      {{> burgers/burger-block devoured=true}}
+    {{/unless}}
   {{/each}}
+</ul>
+
+<h2>Burgers that are devoured</h2>
+
+<ul>
+  {{#each burgers}}
+    {{#if devoured}}
+      {{> burgers/burger-block devoured=false}}
+    {{/if}}
+  {{/each}}
+</ul>
 </ul>
 <h2>Create a Burger</h2>
 <form id="create-burger" class="button-size">
@@ -18,20 +25,8 @@
   <button type="submit">Save Burger!</button>
 </form>
 
-
-
-
-{{!-- <form id='create-burger' class="create-form">
-
-  <div class="form-group">
-    <label for="auth">Add a Burger:</label>
-    <input type="text" name="burger" id='burger'>
-  </div>
-  <button type="submit">Add Burger</button>
-
-</form> --}}
 <script>
-  $("#create-burger").on("submit", function(event) {
+  $("#create-burger").on("submit", function(event) { 
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
@@ -52,28 +47,28 @@
       }
     );
   });
-  $(".devoured").on("submit", function(event) {
+  $(".devoured-button").on("click", function(event) {
+  //  var id = $(this).attr('data-id'); 
+
+    var id = $(this).attr('data-burgerid');
+    console.log('devoured clicked')
+    var devouredBurger = {
+      devoured: true 
+    }
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
-
+    //console.log(id); 
     // [name=plan] will find an element with a "name" attribute equal to the string "plan"
-    var newBurger = {
-      name: $("#create-burger [name=burger]").val().trim()
-    };
-    console.log(newBurger); 
-    // Send the POST request.
-    $.ajax("/api/burger", {
-      type: "POST",
-      data: newBurger
+    $.ajax("/api/burger/" + id, {
+      type: "PUT",
+      data: devouredBurger
     }).then(
       function() {
-        console.log("created new burger");
+        console.log("devoured clicked");
         // Reload the page to get the updated list
         location.reload();
       }
     );
   });
-
-
 </script>
 
