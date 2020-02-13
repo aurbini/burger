@@ -1,5 +1,7 @@
 <li>
 	{{burger_name}}
+	  {{#if devoured}}
+			<button class="devoured-button" data-burgerid="{{id}}" data-dev="{{sleep}}">Devour Burger</button>
+	   {{/if}}
 
-	<button class="devoured-button" data-burgerid="{{id}}" data-dev="{{sleep}}">Devour Burger</button>
 </li>
