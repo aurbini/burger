@@ -1,28 +1,6 @@
 <div id="wrapper">
   <div class="container">
     <h1>Eat Da Burger</h1>
-    <div class="burgers-container">
-      <div class="eat-burger">
-        <h2>Burgers you'd like to EAt</h2>
-        <ul>
-          {{#each burgers}}
-            {{#unless devoured}}
-              {{> burgers/burger-block devoured=true}}
-            {{/unless}}
-          {{/each}}
-        </ul>
-      </div>
-      <div class='devoured-burger'>
-        <h2>Burgers that are devoured</h2>
-        <ul>
-          {{#each burgers}}
-            {{#if devoured}}
-              {{> burgers/burger-block devoured=false}}
-            {{/if}}
-          {{/each}}
-        </ul>
-      </div>
-    </div>
       <img class='burger-image' src="../assets/img/burger.jpeg" alt="">
       <h2>Create a Burger</h2>
 
@@ -34,25 +12,64 @@
           <button class='save-burger' type="submit">Save Burger!</button>
         </div>
       </form>
+    <div class="burgers-container">
+        <div class="eat-burger">
+          <h2>Burgers you'd like to EAt</h2>
+          <ul>
+            {{#each burgers}}
+              {{#unless devoured}}
+                {{> burgers/burger-block devoured=true}}
+              {{/unless}}
+            {{/each}}
+          </ul>
+        </div>
+        <div class='devoured-burger'>
+          <h2>Burgers that are devoured</h2>
+          <ul>
+            {{#each burgers}}
+              {{#if devoured}}
+                {{> burgers/burger-block devoured=false}}
+              {{/if}}
+            {{/each}}
+          </ul>
+        </div>
+      </div>
 
   </div>
 </div>
 
 
 
+
+
+
 <script>
+  $("#create").on("submit", function(event) { 
+    event.preventDefault();
+    console.log('Peter sucks balls')
+
+
+
+  })
+
+
+
+
+
+
   $("#create-burger").on("submit", function(event) { 
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
+    console.log('Peter sucks balls')
 
-    // [name=plan] will find an element with a "name" attribute equal to the string "plan"
+    // [name=plan] will find an element with a "name" attribute equal to the trsing "plan"
     var newBurger = {
       name: $("#create-burger [name=burger]").val().trim()
     };
     console.log(newBurger); 
     // Send the POST request.
     $.ajax("/api/burger", {
-      type: "POST",
+      type: "POST", 
       data: newBurger
     }).then(
       function() {
@@ -85,5 +102,29 @@
       }
     );
   });
+
+  $(".delete-button").on("click", function(event) {
+    event.preventDefault();
+
+    var id = $(this).attr('data-burgerid');
+    console.log('devoured clicked')
+    console.log(id); 
+    
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+    //console.log(id); 
+    // [name=plan] will find an element with a "name" attribute equal to the string "plan"
+    $.ajax("/api/burger/" + id, {
+      type: "DELETE",
+    }).then(
+      function() {
+        console.log("devoured clicked");
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+
+  })
+
 </script>
 

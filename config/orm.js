@@ -59,6 +59,15 @@ const orm = {
       
       cb(result); 
     })
+  },
+  deleteOne: function(table, condition, cb){
+    var query =  `DELETE FROM ${table} WHERE ${condition}`; 
+
+    connection.query(query, function(err, result){
+      console.log('delete query')
+      if (err) throw err; 
+      cb(result); 
+    })
   }
 }
 
